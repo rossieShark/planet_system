@@ -1,7 +1,11 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:planet_system/ui/screens/add_new_planet_page/add_new_planet.dart';
+import 'package:planet_system/resources/resources.dart';
+import 'package:planet_system/services/services_index.dart';
+import 'package:planet_system/ui/screens/screens_index.dart';
+import 'package:planet_system/ui/widgets/widgets_index.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -13,189 +17,129 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Stack(children: [
-      Container(
-        decoration: const BoxDecoration(
-          gradient: SweepGradient(
-            colors: [
-              Color.fromARGB(255, 1, 5, 21),
-              Color.fromARGB(255, 15, 2, 125),
-              Color.fromARGB(255, 18, 5, 21),
-            ],
-            stops: [
-              0.4,
-              0.3,
-              0.3,
-            ],
+    return const Scaffold(
+      body: Stack(
+        children: [
+          _BackgroundWidget(),
+          Positioned(
+            right: 21,
+            top: 193,
+            child: CustomRadialGradient(
+                diameter: 123,
+                colors: [AppColors.gradientColor1, AppColors.gradientColor2]),
           ),
-        ),
-      ),
-      const Positioned(
-        right: 21,
-        top: 193,
-        child: _BacgroundGreenGradient(),
-      ),
-      const Positioned(
-        left: 0,
-        top: 470,
-        child: _BackgroundRedGradient(),
-      ),
-      const Positioned.fill(
-        child: _ProgressIndicatorWidget(),
-      ),
-      Positioned.fill(
-        child: Container(
-          child: Image.asset(
-            'assets/stars.png',
-            fit: BoxFit.cover,
+          Positioned(
+            left: 0,
+            top: 470,
+            child: CustomRadialGradient(
+                diameter: 300,
+                colors: [AppColors.gradientColor3, AppColors.gradientColor4]),
           ),
-        ),
+          Positioned.fill(
+            child: _BlurStarsWidget(),
+          ),
+          _SunSystemWidget(),
+          _AddPlanetButton(),
+        ],
       ),
-      // Adjust the blur intensity as needed
-      const SumWidget(),
-      SafeArea(
-        child: Align(
-          alignment: Alignment.topRight,
-          child: Padding(
-            padding: const EdgeInsets.only(right: 16),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: Container(
-                width: 50,
-                height: 40,
-                color: Color.fromARGB(255, 255, 255, 255).withOpacity(0.4),
-                child: IconButton(
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (BuildContext context) => const AddNewPlanet(),
-                      ));
-                    },
-                    icon: Icon(Icons.add,
-                        color: const Color.fromARGB(255, 0, 0, 0))),
-              ),
-            ),
-          ),
-        ),
-      )
-    ]));
-  }
-}
-
-class SumWidget extends StatelessWidget {
-  const SumWidget({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Positioned(
-          child: Container(
-            height: 100,
-            width: 100,
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 1, sigmaY: 1),
-              child: Container(),
-            ),
-          ),
-        ),
-        Center(
-          child: CustomPaint(
-            size: const Size(100, 100),
-            painter: BallPainter(),
-          ),
-        )
-      ],
     );
   }
 }
 
-class _ProgressIndicatorWidget extends StatelessWidget {
-  const _ProgressIndicatorWidget();
+class _SunSystemWidget extends StatelessWidget {
+  const _SunSystemWidget();
+
+  @override
+  Widget build(BuildContext context) {
+    return InteractiveViewer(
+        panEnabled: false,
+        minScale: 0.2,
+        maxScale: 50,
+        child: Stack(
+          children: [
+            Transform.scale(scale: 0.2, child: const SunWidget()),
+            Transform.scale(scale: 0.2, child: const PlanetsStack()),
+          ],
+        ));
+  }
+}
+
+class _AddPlanetButton extends StatelessWidget {
+  const _AddPlanetButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+        alignment: Alignment.bottomCenter,
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 50),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(35),
+            child: GestureDetector(
+              onTap: () {
+                onTap(context);
+              },
+              child: Container(
+                  width: 60,
+                  height: 60,
+                  color: AppColors.white,
+                  child: Center(
+                    child: Image.asset(
+                      width: 25,
+                      height: 25,
+                      AppImages.planet,
+                      color: AppColors.accent,
+                    ),
+                  )),
+            ),
+          ),
+        ));
+  }
+
+  void onTap(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (BuildContext context) => const AddNewPlanet(),
+    ));
+  }
+}
+
+class _BackgroundWidget extends StatelessWidget {
+  const _BackgroundWidget();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: const BoxDecoration(
+        gradient: SweepGradient(
+          colors: [
+            AppColors.background1,
+            AppColors.background2,
+            AppColors.background1,
+          ],
+          stops: [
+            0.4,
+            0.3,
+            0.3,
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _BlurStarsWidget extends StatelessWidget {
+  const _BlurStarsWidget();
 
   @override
   Widget build(BuildContext context) {
     return ClipRect(
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 150.0, sigmaY: 150.0),
-        child: Container(),
-      ),
-    );
-  }
-}
-
-class _BackgroundRedGradient extends StatelessWidget {
-  const _BackgroundRedGradient();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 300.0,
-      height: 300.0,
-      decoration: const BoxDecoration(
-        shape: BoxShape.circle,
-        gradient: RadialGradient(
-          colors: [
-            Color.fromARGB(255, 191, 18, 18),
-            Color.fromARGB(255, 43, 10, 81)
-          ],
-          center: Alignment.center,
+        child: Image.asset(
+          AppImages.stars,
+          fit: BoxFit.cover,
         ),
       ),
     );
-  }
-}
-
-class _BacgroundGreenGradient extends StatelessWidget {
-  const _BacgroundGreenGradient();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 123.0,
-      height: 123.0,
-      decoration: const BoxDecoration(
-        shape: BoxShape.circle,
-        gradient: RadialGradient(
-          colors: [
-            Color.fromARGB(255, 125, 145, 213),
-            Color.fromARGB(255, 16, 147, 222)
-          ],
-          center: Alignment.center,
-        ),
-      ),
-    );
-  }
-}
-
-class BallPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final center = Offset(size.width / 2, size.height / 2);
-    final radius = size.width / 2;
-    final shadowPaint = Paint()
-      ..color = const Color.fromARGB(255, 238, 238, 36)
-      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 5);
-
-    const gradient = RadialGradient(
-      colors: [
-        Color.fromARGB(255, 244, 148, 4),
-        Color.fromARGB(0, 230, 167, 7),
-      ],
-    );
-
-    final ballPaint = Paint()
-      ..shader =
-          gradient.createShader(Rect.fromCircle(center: center, radius: radius))
-      ..style = PaintingStyle.fill;
-    canvas.drawCircle(center, radius, shadowPaint);
-    canvas.drawCircle(center, radius, ballPaint);
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return false;
   }
 }

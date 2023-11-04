@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:planet_system/models/models_index.dart';
+import 'package:planet_system/providers/provider_index.dart';
 import 'package:planet_system/ui/screens/add_new_planet_page/color_picker.dart';
-import 'package:planet_system/providers/new_planet_provider.dart';
-import 'package:planet_system/models/table_model.dart';
-import 'package:planet_system/ui/widgets/custom_text_field.dart';
-import 'package:provider/provider.dart';
+import 'package:planet_system/ui/widgets/widgets_index.dart';
 
-class RadiusTextField extends StatelessWidget {
-  RadiusTextField({super.key});
+class RadiusTextField extends StatefulWidget {
+  const RadiusTextField({super.key});
 
+  @override
+  State<RadiusTextField> createState() => _RadiusTextFieldState();
+}
+
+class _RadiusTextFieldState extends State<RadiusTextField> {
   final TextEditingController _radiusController = TextEditingController();
 
   @override
@@ -16,7 +20,9 @@ class RadiusTextField extends StatelessWidget {
     return CustomTextField(
       controller: _radiusController,
       onSubmitted: (value) {
-        newPlanetProvider.changeRadius(double.parse(value));
+        if (value.isNotEmpty) {
+          newPlanetProvider.changeRadius(double.parse(value));
+        }
       },
     );
   }
@@ -32,7 +38,9 @@ class DistanceTextField extends StatelessWidget {
     return CustomTextField(
       controller: _distanceController,
       onSubmitted: (value) {
-        newPlanetProvider.changeDistance(int.parse(value));
+        if (value.isNotEmpty) {
+          newPlanetProvider.changeDistance(double.parse(value));
+        }
       },
     );
   }
@@ -49,7 +57,29 @@ class VelocityTextField extends StatelessWidget {
     return CustomTextField(
       controller: _velocityController,
       onSubmitted: (value) {
-        newPlanetProvider.changeVelocity(double.parse(value));
+        if (value.isNotEmpty) {
+          newPlanetProvider.changeVelocity(double.parse(value));
+        }
+      },
+    );
+  }
+}
+
+class NameTextField extends StatelessWidget {
+  NameTextField({super.key});
+
+  final TextEditingController _nameTextController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    final newPlanetProvider = context.read<NewPlanetProvider>();
+    return CustomTextField(
+      textInputType: TextInputType.name,
+      controller: _nameTextController,
+      onSubmitted: (value) {
+        if (value.isNotEmpty) {
+          newPlanetProvider.changeName(value);
+        }
       },
     );
   }
@@ -58,14 +88,18 @@ class VelocityTextField extends StatelessWidget {
 List<TableModel> table = [
   TableModel(
     title: 'Color',
-    child: ColorPickerButton(),
+    child: const ColorPickerButton(),
   ),
   TableModel(
-    title: 'Radius',
-    child: RadiusTextField(),
+    title: 'Name of planet',
+    child: NameTextField(),
   ),
   TableModel(
-    title: 'Distance from sun',
+    title: 'Radius (km)',
+    child: const RadiusTextField(),
+  ),
+  TableModel(
+    title: 'Distance from sun (million km)',
     child: DistanceTextField(),
   ),
   TableModel(

@@ -3,7 +3,11 @@ import 'package:planet_system/models/new_planet_model.dart';
 
 class NewPlanetService {
   var _model = NewPlanetModel(
-      color: Colors.red, raduis: 100, distance: 20, velocity: 0.5);
+      color: Colors.red,
+      raduis: 25000,
+      distance: null,
+      velocity: null,
+      name: null);
   NewPlanetModel get model => _model;
 
   void changeColor(Color color) {
@@ -14,8 +18,12 @@ class NewPlanetService {
     _model = model.copyWith(raduis: radius);
   }
 
-  void changeDistance(int distance) {
+  void changeDistance(double distance) {
     _model = model.copyWith(distance: distance);
+  }
+
+  void changeName(String name) {
+    _model = model.copyWith(name: name);
   }
 
   void changeVelocity(double velocity) {
