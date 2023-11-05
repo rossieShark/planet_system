@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:planet_system/models/models_index.dart';
 import 'package:planet_system/providers/provider_index.dart';
 import 'package:planet_system/services/services_index.dart';
-import 'package:planet_system/ui/screens/add_new_planet_page/text_field.dart';
+
 
 import 'package:planet_system/ui/widgets/widgets_index.dart';
 
@@ -50,7 +50,8 @@ class _PlanetPropertiesWidget extends StatelessWidget {
           0: FlexColumnWidth(2),
           1: FlexColumnWidth(3),
         },
-        children: table
+        children: AppData()
+            .table
             .map(
               (item) => TableRow(
                 children: [

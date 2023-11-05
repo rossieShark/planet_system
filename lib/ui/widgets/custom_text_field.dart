@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:planet_system/providers/text_fields_provider.dart';
 import 'package:planet_system/services/ui/color_service.dart';
-import 'package:provider/provider.dart';
 
 class CustomTextField extends StatefulWidget {
   const CustomTextField(
       {super.key,
       required this.controller,
       required this.onSubmitted,
-      this.textInputType = TextInputType.number});
+      this.textInputType = TextInputType.number,
+      this.errorText});
   final TextEditingController controller;
   final void Function(String) onSubmitted;
+
+  final String? errorText;
   final TextInputType textInputType;
 
   @override
@@ -20,28 +20,18 @@ class CustomTextField extends StatefulWidget {
 
 class _CustomTextFieldState extends State<CustomTextField> {
   final FocusNode _focusNode = FocusNode();
-  String? errorText;
 
-  @override
-  void initState() {
-    super.initState();
+  // void updateErrorText(String value) {
+  //   setState(() {
+  //     errorText = value.isEmpty ? '' : null;
+  //   });
+  // }
 
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      context.read<TextFieldsProvider>().addController(widget.controller);
-    });
-  }
-
-  void updateErrorText(String value) {
-    setState(() {
-      errorText = value.isEmpty ? '' : null;
-    });
-  }
-
-  @override
-  void dispose() {
-    widget.controller.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   widget.controller.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -55,12 +45,12 @@ class _CustomTextFieldState extends State<CustomTextField> {
         focusedBorder: const UnderlineInputBorder(
           borderSide: BorderSide(color: AppColors.grey),
         ),
-        errorText: errorText,
+        errorText: widget.errorText,
       ),
       keyboardType: widget.textInputType,
       style: const TextStyle(color: Colors.white),
       onChanged: (value) {
-        updateErrorText(value);
+        // updateErrorText(value);
         widget.onSubmitted(value);
       },
       onSubmitted: (value) {

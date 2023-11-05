@@ -40,7 +40,6 @@ class ColorPickerButton extends StatelessWidget {
 
 class _ColorContainer extends StatelessWidget {
   const _ColorContainer({
-    super.key,
     required this.newPlanetProvider,
   });
 
@@ -75,7 +74,6 @@ class _ColorPickerDialog extends StatelessWidget {
 
 class _ColorPickerContent extends StatelessWidget {
   const _ColorPickerContent({
-    super.key,
     required this.newPlanetProvider,
   });
 

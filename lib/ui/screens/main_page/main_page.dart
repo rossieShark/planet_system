@@ -2,9 +2,11 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:planet_system/providers/provider_index.dart';
 import 'package:planet_system/resources/resources.dart';
 import 'package:planet_system/services/services_index.dart';
 import 'package:planet_system/ui/screens/screens_index.dart';
+
 import 'package:planet_system/ui/widgets/widgets_index.dart';
 
 class MainPage extends StatefulWidget {
@@ -71,32 +73,32 @@ class _AddPlanetButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Align(
         alignment: Alignment.bottomCenter,
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 50),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(35),
-            child: GestureDetector(
-              onTap: () {
-                onTap(context);
-              },
-              child: Container(
-                  width: 60,
-                  height: 60,
-                  color: AppColors.white,
-                  child: Center(
-                    child: Image.asset(
-                      width: 25,
-                      height: 25,
-                      AppImages.planet,
-                      color: AppColors.accent,
-                    ),
-                  )),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            CustomButton(
+                onTap: () {
+                  onAddPlanet(context);
+                },
+                image: AppImages.planet),
+            const SizedBox(
+              width: 30,
             ),
-          ),
+            CustomButton(
+                onTap: () {
+                  onRemoveAll(context);
+                },
+                image: AppImages.minus),
+          ],
         ));
   }
 
-  void onTap(BuildContext context) {
+  void onRemoveAll(BuildContext context) {
+    final planetProvider = context.read<PlanetsProvider>();
+    planetProvider.removeAll();
+  }
+
+  void onAddPlanet(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(
       builder: (BuildContext context) => const AddNewPlanet(),
     ));

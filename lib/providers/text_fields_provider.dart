@@ -1,30 +1,30 @@
 import 'package:flutter/material.dart';
 
-class _ViewModelState {
-  List<TextEditingController> controllers = [];
-}
-
 class TextFieldsProvider with ChangeNotifier {
-  // ignore: prefer_final_fields
-  var _state = _ViewModelState();
-  _ViewModelState get state => _state;
-
-  void addController(TextEditingController controller) {
-    _state.controllers.add(controller);
+  // Use a Map to associate controllers with bool values
+  final Map<TextEditingController, bool> _controllerValidationMap = {};
+  void addController(TextEditingController controller, bool isValid) {
+    _controllerValidationMap[controller] = isValid;
 
     notifyListeners();
   }
 
   bool isAllControllersValid() {
-    for (var controller in _state.controllers) {
-      if (controller.text.isEmpty) {
+    for (var isValid in _controllerValidationMap.values) {
+      if (!isValid) {
         return false;
       }
     }
     return true;
   }
 
+  // Function to check if a specific controller is valid
+  bool isControllerValid(TextEditingController controller) {
+    return _controllerValidationMap[controller] == true;
+  }
+
   Future<void> removeAllControllers() async {
-    _state.controllers.clear();
+    _controllerValidationMap.clear(); // Clear the validation map as well
+    notifyListeners();
   }
 }

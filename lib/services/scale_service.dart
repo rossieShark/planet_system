@@ -1,7 +1,9 @@
 class ScaleService {
-  static const _sunRealRadius = 696340;
-  static const _sunScaleRadius = 50;
+  static const double _sunRealRadius = 696340;
+  static const double _sunScaleRadius = 50;
 
+  double get sunScaleRadius => _sunScaleRadius;
+  double get sunRealRadius => _sunRealRadius;
   double _convertValue() {
     return _sunScaleRadius / _sunRealRadius;
   }

@@ -15,9 +15,9 @@ class PlanetsStack extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Consumer<PlanetsProvider>(builder: (context, planets, child) {
-        if (planets.planets.isNotEmpty) {
+        if (planets.state.planets.isNotEmpty) {
           return Stack(
-            children: planets.planets.map((planet) {
+            children: planets.state.planets.map((planet) {
               return _PlanetStack(
                 planet: planet,
               );
@@ -148,7 +148,6 @@ class __PlanetStackState extends State<_PlanetStack>
 
 class _PlanetsDrawer extends StatelessWidget {
   const _PlanetsDrawer({
-    super.key,
     required this.widget,
     required this.rotationAnimation,
   });

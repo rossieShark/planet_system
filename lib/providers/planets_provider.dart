@@ -1,4 +1,4 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+// ignore_for_file: public_member_api_docs, sort_constructors_first, library_private_types_in_public_api
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -17,67 +17,60 @@ class _PlanetsModelState {
 class PlanetsProvider extends ChangeNotifier {
   final _planetsService = PlanetService();
 
-  // var _state = _PlanetsModelState(planets: []);
-  // _PlanetsModelState get state => _state;
+  var _state = _PlanetsModelState(planets: []);
+  _PlanetsModelState get state => _state;
 
-  // PlanetsProvider() {
-  //   loadValue();
-  // }
-  // void loadValue() async {
-  //   await _planetsService.initialize();
-  //   _updateState;
-  // }
-
-  List<NewPlanetModel> _planets = [];
-  List<NewPlanetModel> get planets => _planets;
+  PlanetsProvider() {
+    loadValue();
+  }
+  void loadValue() async {
+    await _planetsService.initialize();
+    _updateState();
+  }
 
   void addPlanet(NewPlanetModel planet) {
-    _planets.add(planet);
-    notifyListeners();
+    _planetsService.addPlanet(planet);
+    _updateState();
   }
 
   void removePlanetWithName(String name) {
-    _planets.removeWhere((item) => item.name == name);
-    notifyListeners();
+    _planetsService.removePlanetWithName(name);
+    _updateState();
   }
-  // void addPlanet(NewPlanetModel planet) {
-  //   _planetsService.addPlanet(planet);
-  //   _updateState;
-  // }
 
-  // void removePlanetWithName(String name) {
-  //   _planetsService.removePlanetWithName(name);
-  //   _updateState;
-  // }
+  void removeAll() {
+    _planetsService.removeAll();
+    _updateState();
+  }
 
   void _updateState() {
-    final planets = _planetsService.planets;
+    final newPlanets = _planetsService.planets;
     _state = _PlanetsModelState(
-      planets: planets,
+      planets: newPlanets,
     );
     notifyListeners();
   }
 }
 
-// class PlanetsDataProvider {
-//   final sharedPreferences = SharedPreferences.getInstance();
+class PlanetsDataProvider {
+  final sharedPreferences = SharedPreferences.getInstance();
 
-//   Future<void> savePlanets(List<NewPlanetModel> planets) async {
-//     final prefs = await SharedPreferences.getInstance();
-//     final planetsJson = planets.map((planet) => planet.toJson()).toList();
-//     final planetsString = jsonEncode(planetsJson);
-//     prefs.setString('planets', planetsString);
-//   }
+  Future<void> savePlanets(List<NewPlanetModel> planets) async {
+    final prefs = await SharedPreferences.getInstance();
+    final planetsJson = planets.map((planet) => planet.toJson()).toList();
+    final planetsString = jsonEncode(planetsJson);
+    prefs.setString('planets', planetsString);
+  }
 
-//   Future<List<NewPlanetModel>> loadPlanets() async {
-//     final prefs = await SharedPreferences.getInstance();
-//     final planetsString = prefs.getString('planets');
-//     if (planetsString == null) {
-//       return []; // Return an empty list if the data is not found
-//     }
-//     final planetsJson = jsonDecode(planetsString);
-//     return planetsJson
-//         .map<NewPlanetModel>((json) => NewPlanetModel.fromJson(json))
-//         .toList();
-//   }
-//}
+  Future<List<NewPlanetModel>> loadPlanets() async {
+    final prefs = await SharedPreferences.getInstance();
+    final planetsString = prefs.getString('planets');
+    if (planetsString == null) {
+      return []; // Return an empty list if the data is not found
+    }
+    final planetsJson = jsonDecode(planetsString);
+    return planetsJson
+        .map<NewPlanetModel>((json) => NewPlanetModel.fromJson(json))
+        .toList();
+  }
+}
