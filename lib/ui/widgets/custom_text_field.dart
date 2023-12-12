@@ -21,18 +21,6 @@ class CustomTextField extends StatefulWidget {
 class _CustomTextFieldState extends State<CustomTextField> {
   final FocusNode _focusNode = FocusNode();
 
-  // void updateErrorText(String value) {
-  //   setState(() {
-  //     errorText = value.isEmpty ? '' : null;
-  //   });
-  // }
-
-  // @override
-  // void dispose() {
-  //   widget.controller.dispose();
-  //   super.dispose();
-  // }
-
   @override
   Widget build(BuildContext context) {
     return TextField(

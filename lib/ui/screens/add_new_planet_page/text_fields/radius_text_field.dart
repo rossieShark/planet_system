@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:planet_system/bloc/new_planet_bloc/new_planet_bloc.dart';
+import 'package:planet_system/bloc/new_planet_bloc/new_planet_bloc_event.dart';
 import 'package:planet_system/providers/provider_index.dart';
 import 'package:planet_system/services/services_index.dart';
 import 'package:planet_system/ui/widgets/widgets_index.dart';
-
-
-
 
 class RadiusTextField extends StatefulWidget {
   const RadiusTextField({super.key});
@@ -21,42 +20,42 @@ class _RadiusTextFieldState extends State<RadiusTextField> {
 
   @override
   Widget build(BuildContext context) {
-    final newPlanetProvider = context.read<NewPlanetProvider>();
+    final newPlanetBloc = context.read<NewPlanetBloc>();
     return CustomTextField(
       controller: _radiusController,
       errorText: errorText,
       onSubmitted: (value) {
         if (value.isNotEmpty) {
-          newPlanetProvider.changeRadius(double.parse(value));
+          newPlanetBloc.add(ChangeRadiusEvent(radius: double.parse(value)));
         }
-        updateErrorText(value);
+        // updateErrorText(value);
       },
     );
   }
 
-  void updateErrorText(String value) {
-    final uniqueService = UniqueService();
-    final sunRadius = ScaleService().sunRealRadius;
-    if (value.isEmpty || !uniqueService.isRadiusValid(double.parse(value))) {
-      setState(() {
-        errorText = 'Enter radius between 1000 - $sunRadius';
-      });
-      addToProvider();
-    } else {
-      setState(() {
-        errorText = null;
-      });
-      addToProvider();
-    }
-  }
+  // void updateErrorText(String value) {
+  //   final uniqueService = UniqueService();
+  //   final sunRadius = ScaleService().sunRealRadius;
+  //   if (value.isEmpty || !uniqueService.isRadiusValid(double.parse(value))) {
+  //     setState(() {
+  //       errorText = 'Enter radius between 1000 - $sunRadius';
+  //     });
+  //     addToProvider();
+  //   } else {
+  //     setState(() {
+  //       errorText = null;
+  //     });
+  //     addToProvider();
+  //   }
+  // }
 
-  void addToProvider() {
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      context
-          .read<TextFieldsProvider>()
-          .addController(_radiusController, errorText == null);
-    });
-  }
+  // void addToProvider() {
+  //   SchedulerBinding.instance.addPostFrameCallback((_) {
+  //     context
+  //         .read<TextFieldsProvider>()
+  //         .addController(_radiusController, errorText == null);
+  //   });
+  // }
 
   @override
   void dispose() {

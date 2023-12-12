@@ -1,5 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:planet_system/bloc/new_planet_bloc/new_planet_bloc.dart';
+import 'package:planet_system/bloc/new_planet_bloc/new_planet_bloc_event.dart';
+import 'package:planet_system/bloc/new_planet_bloc/new_planet_bloc_state.dart';
 import 'package:planet_system/bloc/new_planet_bloc/planets_bloc/planets_bloc.dart';
 import 'package:planet_system/bloc/new_planet_bloc/planets_bloc/planets_bloc_event.dart';
 import 'package:planet_system/models/models_index.dart';
@@ -103,19 +107,19 @@ class _SaveButtonWidget extends StatelessWidget {
   }
 
   void onPressed(BuildContext context) {
-    final provider = context.read<TextFieldsProvider>();
-
-    if (provider.isAllControllersValid()) {
+    final newPlanet = context.read<NewPlanetBloc>();
+    newPlanet.add(IsValidEvent());
+    final isValid = context.watch<NewPlanetBloc>().state.isValid;
+    if (isValid) {
       final planetsBloc = context.read<PlanetsBloc>();
-      final newPlanet = context.read<NewPlanetProvider>().state;
       planetsBloc.add(AddPlanetsBlocEvent(NewPlanetModel(
-          color: newPlanet.color,
-          raduis: ScaleService().convertRadius(newPlanet.raduis!) * 3,
-          distance: ScaleService().convertDistance(newPlanet.distance!),
-          velocity: newPlanet.velocity,
-          name: newPlanet.name)));
+          color: newPlanet.state.color,
+          raduis: ScaleService().convertRadius(newPlanet.state.raduis!) * 3,
+          distance: ScaleService().convertDistance(newPlanet.state.distance!),
+          velocity: newPlanet.state.velocity,
+          name: newPlanet.state.name)));
       Navigator.of(context).pop();
-      provider.removeAllControllers();
+      // provider.removeAllControllers();
     }
   }
 }
@@ -125,16 +129,17 @@ class _PlanetBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<NewPlanetProvider>(builder: (context, newPlanet, child) {
+    return BlocBuilder<NewPlanetBloc, NewPlanetState>(
+        builder: (context, state) {
       const scaleFactor = 40;
-      final planetRadius = newPlanet.state.raduis != null
-          ? ScaleService().convertRadius(newPlanet.state.raduis!) * scaleFactor
+      final planetRadius = state.raduis != null
+          ? ScaleService().convertRadius(state.raduis!) * scaleFactor
           : 0.0;
 
       return SizedBox(
           height: MediaQuery.of(context).size.height / 2 - 100,
           child: PlanetBuilderWidget(
-              planetRadius: planetRadius, planetColor: newPlanet.state.color!));
+              planetRadius: planetRadius, planetColor: state.color!));
     });
   }
 }

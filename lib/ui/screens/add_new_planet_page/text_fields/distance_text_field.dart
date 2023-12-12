@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:planet_system/bloc/new_planet_bloc/new_planet_bloc.dart';
+import 'package:planet_system/bloc/new_planet_bloc/new_planet_bloc_event.dart';
 import 'package:planet_system/providers/provider_index.dart';
 import 'package:planet_system/services/services_index.dart';
 
@@ -19,42 +21,42 @@ class _DistanceTextFieldState extends State<DistanceTextField> {
 
   @override
   Widget build(BuildContext context) {
-    final newPlanetProvider = context.read<NewPlanetProvider>();
+    final newPlanetBloc = context.read<NewPlanetBloc>();
     return CustomTextField(
       controller: _distanceController,
       errorText: errorText,
       onSubmitted: (value) {
         if (value.isNotEmpty) {
-          newPlanetProvider.changeDistance(double.parse(value));
+          newPlanetBloc.add(ChangeDistanceEvent(distance: double.parse(value)));
         }
-        updateErrorText(value);
+        // updateErrorText(value);
       },
     );
   }
 
-  void updateErrorText(String value) {
-    final uniqueService = UniqueService();
+  // void updateErrorText(String value) {
+  //   final uniqueService = UniqueService();
 
-    if (value.isEmpty || !uniqueService.isUniqueDistance(double.parse(value))) {
-      setState(() {
-        errorText = 'Distances intersect';
-      });
-      addToProvider();
-    } else {
-      setState(() {
-        errorText = null;
-      });
-      addToProvider();
-    }
-  }
+  //   if (value.isEmpty || !uniqueService.isUniqueDistance(double.parse(value))) {
+  //     setState(() {
+  //       errorText = 'Distances intersect';
+  //     });
+  //     addToProvider();
+  //   } else {
+  //     setState(() {
+  //       errorText = null;
+  //     });
+  //     addToProvider();
+  //   }
+  // }
 
-  void addToProvider() {
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      context
-          .read<TextFieldsProvider>()
-          .addController(_distanceController, errorText == null);
-    });
-  }
+  // void addToProvider() {
+  //   SchedulerBinding.instance.addPostFrameCallback((_) {
+  //     context
+  //         .read<TextFieldsProvider>()
+  //         .addController(_distanceController, errorText == null);
+  //   });
+  // }
 
   @override
   void dispose() {

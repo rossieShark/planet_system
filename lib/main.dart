@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:planet_system/providers/planets_provider.dart';
-import 'package:planet_system/providers/text_fields_provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:planet_system/bloc/new_planet_bloc/new_planet_bloc.dart';
+import 'package:planet_system/bloc/new_planet_bloc/planets_bloc/planets_bloc.dart';
+import 'package:planet_system/database/planets_db.dart';
+
+import 'package:planet_system/services/planets_repository.dart';
 import 'package:planet_system/ui/screens/main_page/main_page.dart';
-import 'package:planet_system/providers/new_planet_provider.dart';
+
 import 'package:provider/provider.dart';
 
 void main() {
@@ -16,15 +20,15 @@ class PlanetSystem extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (_) => NewPlanetProvider(),
+        BlocProvider(
+          create: (_) => NewPlanetBloc(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => PlanetsProvider(),
+        BlocProvider(
+          create: (_) => PlanetsBloc(PlanetsRepository(PlanetsDatabase())),
         ),
-        ChangeNotifierProvider(
-          create: (_) => TextFieldsProvider(),
-        ),
+        // ChangeNotifierProvider(
+        //   create: (_) => TextFieldsProvider(),
+        // ),
       ],
       child: const MaterialApp(
         home: MainPage(),

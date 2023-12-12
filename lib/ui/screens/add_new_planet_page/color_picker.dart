@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:planet_system/bloc/new_planet_bloc/new_planet_bloc.dart';
+import 'package:planet_system/bloc/new_planet_bloc/new_planet_bloc_event.dart';
 import 'package:planet_system/providers/provider_index.dart';
 import 'package:planet_system/services/services_index.dart';
 import 'package:planet_system/ui/widgets/widgets_index.dart';
@@ -12,23 +14,22 @@ class ColorPickerButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final newPlanetProvider = context.watch<NewPlanetProvider>();
     return PlatformBuilder(
         iOS: GestureDetector(
-          child: _ColorContainer(newPlanetProvider: newPlanetProvider),
+          child: _ColorContainer(),
           onTap: () => showCupertinoDialog(
             context: context,
             builder: (BuildContext context) {
-              return _ColorPickerDialog(newPlanetProvider: newPlanetProvider);
+              return _ColorPickerDialog();
             },
           ),
         ),
         other: GestureDetector(
-          child: _ColorContainer(newPlanetProvider: newPlanetProvider),
+          child: _ColorContainer(),
           onTap: () => showDialog(
             context: context,
             builder: (BuildContext context) {
-              return _ColorPickerDialog(newPlanetProvider: newPlanetProvider);
+              return _ColorPickerDialog();
             },
           ),
         ),
@@ -39,18 +40,15 @@ class ColorPickerButton extends StatelessWidget {
 }
 
 class _ColorContainer extends StatelessWidget {
-  const _ColorContainer({
-    required this.newPlanetProvider,
-  });
-
-  final NewPlanetProvider newPlanetProvider;
+  const _ColorContainer();
 
   @override
   Widget build(BuildContext context) {
+    final newPlanet = context.watch<NewPlanetBloc>();
     return Container(
       height: 40,
       decoration: BoxDecoration(
-        color: newPlanetProvider.state.color,
+        color: newPlanet.state.color,
         borderRadius: BorderRadius.circular(10),
       ),
     );
@@ -58,38 +56,31 @@ class _ColorContainer extends StatelessWidget {
 }
 
 class _ColorPickerDialog extends StatelessWidget {
-  const _ColorPickerDialog({
-    required this.newPlanetProvider,
-  });
-
-  final NewPlanetProvider newPlanetProvider;
+  const _ColorPickerDialog();
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      content: _ColorPickerContent(newPlanetProvider: newPlanetProvider),
+      content: _ColorPickerContent(),
     );
   }
 }
 
 class _ColorPickerContent extends StatelessWidget {
-  const _ColorPickerContent({
-    required this.newPlanetProvider,
-  });
-
-  final NewPlanetProvider newPlanetProvider;
+  const _ColorPickerContent();
 
   @override
   Widget build(BuildContext context) {
+    final newPlanet = context.watch<NewPlanetBloc>();
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(mainAxisSize: MainAxisSize.min, children: [
         const Text('Choose a Color'),
         const SizedBox(height: 16.0),
         ColorPicker(
-          pickerColor: newPlanetProvider.state.color!,
+          pickerColor: newPlanet.state.color!,
           onColorChanged: (color) {
-            newPlanetProvider.changeColor(color);
+            context.read<NewPlanetBloc>().add(ChangeColorEvent(color: color));
           },
           enableAlpha: false,
           pickerAreaHeightPercent: 0.8,

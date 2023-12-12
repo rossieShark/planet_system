@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:planet_system/bloc/new_planet_bloc/planets_bloc/planets_bloc_event.dart';
 import 'package:planet_system/bloc/new_planet_bloc/planets_bloc/planets_bloc_state.dart';
-import 'package:planet_system/services/planets_service.dart';
+import 'package:planet_system/services/planets_repository.dart';
 
 class PlanetsBloc extends Bloc<PlanetsBlocEvent, PlanetsState> {
   final PlanetsRepository _repository;

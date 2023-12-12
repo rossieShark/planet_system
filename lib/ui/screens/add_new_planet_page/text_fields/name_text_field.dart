@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:planet_system/bloc/new_planet_bloc/new_planet_bloc.dart';
+import 'package:planet_system/bloc/new_planet_bloc/new_planet_bloc_event.dart';
 import 'package:planet_system/providers/provider_index.dart';
 import 'package:planet_system/services/services_index.dart';
 import 'package:planet_system/ui/widgets/widgets_index.dart';
-
-
-
 
 class NameTextField extends StatefulWidget {
   const NameTextField({super.key});
@@ -20,43 +19,43 @@ class _NameTextFieldState extends State<NameTextField> {
 
   @override
   Widget build(BuildContext context) {
-    final newPlanetProvider = context.read<NewPlanetProvider>();
+    final newPlanetBloc = context.read<NewPlanetBloc>();
     return CustomTextField(
       textInputType: TextInputType.name,
       errorText: errorText,
       controller: _nameTextController,
       onSubmitted: (value) {
         if (value.isNotEmpty) {
-          newPlanetProvider.changeName(value);
+          newPlanetBloc.add(ChangeNameEvent(name: value));
         }
-        updateErrorText(value);
+        // updateErrorText(value);
       },
     );
   }
 
-  void updateErrorText(String value) {
-    final uniqueService = UniqueService();
+  // void updateErrorText(String value) {
+  //   final uniqueService = UniqueService();
 
-    if (value.isEmpty || !uniqueService.isUniqueName(value)) {
-      setState(() {
-        errorText = 'Name is not unique or empty';
-      });
-      addToProvider();
-    } else {
-      setState(() {
-        errorText = null;
-      });
-      addToProvider();
-    }
-  }
+  //   if (value.isEmpty || !uniqueService.isUniqueName(value)) {
+  //     setState(() {
+  //       errorText = 'Name is not unique or empty';
+  //     });
+  //     addToProvider();
+  //   } else {
+  //     setState(() {
+  //       errorText = null;
+  //     });
+  //     addToProvider();
+  //   }
+  // }
 
-  void addToProvider() {
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      context
-          .read<TextFieldsProvider>()
-          .addController(_nameTextController, errorText == null);
-    });
-  }
+  // void addToProvider() {
+  //   SchedulerBinding.instance.addPostFrameCallback((_) {
+  //     context
+  //         .read<TextFieldsProvider>()
+  //         .addController(_nameTextController, errorText == null);
+  //   });
+  // }
 
   @override
   void dispose() {
