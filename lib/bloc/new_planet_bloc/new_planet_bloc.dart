@@ -17,6 +17,7 @@ class NewPlanetBloc extends Bloc<NewPlanetEvent, NewPlanetState> {
     on<ChangeDistanceEvent>(_onChangeDistance);
     on<ChangeNameEvent>(_onChangeName);
     on<ChangeVelocityEvent>(_onChangeVelocity);
+    on<IsValidEvent>(_emitUpdatedState);
   }
   void _onChangeColor(
       ChangeColorEvent event, Emitter<NewPlanetState> emit) async {
@@ -49,8 +50,20 @@ class NewPlanetBloc extends Bloc<NewPlanetEvent, NewPlanetState> {
     emit(state.copyWith(isValid: isValid));
   }
 
+  void _onClearValues(
+      ClearValuesEvent event, Emitter<NewPlanetState> emit) async {
+    emit(state.copyWith(
+        color: Colors.red,
+        raduis: 20000,
+        distance: null,
+        velocity: null,
+        name: null,
+        isValid: true));
+  }
+
   bool _validate(NewPlanetState state) {
     return state.name != null &&
+        state.name != '' &&
         state.distance != null &&
         state.velocity != null &&
         state.raduis != null;

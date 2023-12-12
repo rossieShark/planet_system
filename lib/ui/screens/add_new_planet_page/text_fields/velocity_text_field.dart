@@ -26,6 +26,7 @@ class _VelocityTextFieldState extends State<VelocityTextField> {
       errorText: errorText,
       onSubmitted: (value) {
         if (value.isNotEmpty) {
+          print(value);
           newPlanetBloc.add(ChangeVelocityEvent(velocity: double.parse(value)));
         }
         // updateErrorText(value);

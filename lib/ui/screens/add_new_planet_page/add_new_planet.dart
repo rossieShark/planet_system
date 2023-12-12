@@ -4,8 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:planet_system/bloc/new_planet_bloc/new_planet_bloc.dart';
 import 'package:planet_system/bloc/new_planet_bloc/new_planet_bloc_event.dart';
 import 'package:planet_system/bloc/new_planet_bloc/new_planet_bloc_state.dart';
-import 'package:planet_system/bloc/new_planet_bloc/planets_bloc/planets_bloc.dart';
-import 'package:planet_system/bloc/new_planet_bloc/planets_bloc/planets_bloc_event.dart';
+
+import 'package:planet_system/bloc/planets_bloc/planets_bloc.dart';
+import 'package:planet_system/bloc/planets_bloc/planets_bloc_event.dart';
 import 'package:planet_system/models/models_index.dart';
 import 'package:planet_system/providers/provider_index.dart';
 import 'package:planet_system/services/services_index.dart';
@@ -94,6 +95,8 @@ class _SaveButtonWidget extends StatelessWidget {
           color: AppColors.white,
           child: TextButton(
             onPressed: () {
+              final newPlanet = context.read<NewPlanetBloc>();
+              newPlanet.add(IsValidEvent());
               onPressed(context);
             },
             child: const Text(
@@ -107,11 +110,10 @@ class _SaveButtonWidget extends StatelessWidget {
   }
 
   void onPressed(BuildContext context) {
-    final newPlanet = context.read<NewPlanetBloc>();
-    newPlanet.add(IsValidEvent());
     final isValid = context.watch<NewPlanetBloc>().state.isValid;
     if (isValid) {
       final planetsBloc = context.read<PlanetsBloc>();
+      final newPlanet = context.read<NewPlanetBloc>();
       planetsBloc.add(AddPlanetsBlocEvent(NewPlanetModel(
           color: newPlanet.state.color,
           raduis: ScaleService().convertRadius(newPlanet.state.raduis!) * 3,
@@ -119,7 +121,7 @@ class _SaveButtonWidget extends StatelessWidget {
           velocity: newPlanet.state.velocity,
           name: newPlanet.state.name)));
       Navigator.of(context).pop();
-      // provider.removeAllControllers();
+      newPlanet.add(ClearValuesEvent());
     }
   }
 }

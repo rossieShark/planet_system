@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:planet_system/bloc/new_planet_bloc/new_planet_bloc.dart';
-import 'package:planet_system/bloc/new_planet_bloc/planets_bloc/planets_bloc.dart';
+
+import 'package:planet_system/bloc/planets_bloc/planets_bloc.dart';
 import 'package:planet_system/database/planets_db.dart';
 
 import 'package:planet_system/services/planets_repository.dart';

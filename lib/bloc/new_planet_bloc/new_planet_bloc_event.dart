@@ -38,6 +38,10 @@ class ChangeNameEvent extends NewPlanetEvent {
   });
 }
 
+class ClearValuesEvent extends NewPlanetEvent {
+  ClearValuesEvent();
+}
+
 class IsValidEvent extends NewPlanetEvent {
   IsValidEvent();
 }

@@ -2,11 +2,12 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:planet_system/bloc/new_planet_bloc/planets_bloc/planets_bloc.dart';
-import 'package:planet_system/bloc/new_planet_bloc/planets_bloc/planets_bloc_event.dart';
-import 'package:planet_system/bloc/new_planet_bloc/planets_bloc/planets_bloc_state.dart';
+
+import 'package:planet_system/bloc/planets_bloc/planets_bloc.dart';
+import 'package:planet_system/bloc/planets_bloc/planets_bloc_event.dart';
+import 'package:planet_system/bloc/planets_bloc/planets_bloc_state.dart';
 import 'package:planet_system/models/models_index.dart';
-import 'package:planet_system/providers/provider_index.dart';
+
 import 'package:planet_system/services/services_index.dart';
 import 'package:planet_system/ui/widgets/widgets_index.dart';
 
