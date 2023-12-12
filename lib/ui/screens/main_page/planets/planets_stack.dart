@@ -1,6 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:planet_system/bloc/new_planet_bloc/planets_bloc/planets_bloc.dart';
+import 'package:planet_system/bloc/new_planet_bloc/planets_bloc/planets_bloc_event.dart';
+import 'package:planet_system/bloc/new_planet_bloc/planets_bloc/planets_bloc_state.dart';
 import 'package:planet_system/models/models_index.dart';
 import 'package:planet_system/providers/provider_index.dart';
 import 'package:planet_system/services/services_index.dart';
@@ -14,18 +18,17 @@ class PlanetsStack extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Consumer<PlanetsProvider>(builder: (context, planets, child) {
-        if (planets.state.planets.isNotEmpty) {
-          return Stack(
-            children: planets.state.planets.map((planet) {
-              return _PlanetStack(
-                planet: planet,
-              );
-            }).toList(),
-          );
-        } else {
-          return Container();
-        }
+      child: BlocBuilder<PlanetsBloc, PlanetsState>(builder: (context, state) {
+        return state.map(
+            empty: (_) => Container(),
+            error: (_) => Container(),
+            loaded: (data) => Stack(
+                  children: data.planets.map((planet) {
+                    return _PlanetStack(
+                      planet: planet,
+                    );
+                  }).toList(),
+                ));
       }),
     );
   }
@@ -128,9 +131,9 @@ class __PlanetStackState extends State<_PlanetStack>
         context: context,
         title: "Do you really want to delete planet ${widget.planet.name}?",
         onPressed: () {
-          final planetProvider = context.read<PlanetsProvider>();
-
-          planetProvider.removePlanetWithName(widget.planet.name!);
+          context
+              .read<PlanetsBloc>()
+              .add(RemovePlanetsBlocEvent(widget.planet.name!));
         });
   }
 
@@ -139,9 +142,9 @@ class __PlanetStackState extends State<_PlanetStack>
         context: context,
         title: "Do you really want to delete planet ${widget.planet.name}?",
         onPressed: () {
-          final planetProvider = context.read<PlanetsProvider>();
-
-          planetProvider.removePlanetWithName(widget.planet.name!);
+          context
+              .read<PlanetsBloc>()
+              .add(RemovePlanetsBlocEvent(widget.planet.name!));
         });
   }
 }

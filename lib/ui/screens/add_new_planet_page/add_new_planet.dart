@@ -1,9 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:planet_system/bloc/new_planet_bloc/planets_bloc/planets_bloc.dart';
+import 'package:planet_system/bloc/new_planet_bloc/planets_bloc/planets_bloc_event.dart';
 import 'package:planet_system/models/models_index.dart';
 import 'package:planet_system/providers/provider_index.dart';
 import 'package:planet_system/services/services_index.dart';
-
 
 import 'package:planet_system/ui/widgets/widgets_index.dart';
 
@@ -105,14 +106,14 @@ class _SaveButtonWidget extends StatelessWidget {
     final provider = context.read<TextFieldsProvider>();
 
     if (provider.isAllControllersValid()) {
-      final planetsProvider = context.read<PlanetsProvider>();
+      final planetsBloc = context.read<PlanetsBloc>();
       final newPlanet = context.read<NewPlanetProvider>().state;
-      planetsProvider.addPlanet(NewPlanetModel(
+      planetsBloc.add(AddPlanetsBlocEvent(NewPlanetModel(
           color: newPlanet.color,
           raduis: ScaleService().convertRadius(newPlanet.raduis!) * 3,
           distance: ScaleService().convertDistance(newPlanet.distance!),
           velocity: newPlanet.velocity,
-          name: newPlanet.name));
+          name: newPlanet.name)));
       Navigator.of(context).pop();
       provider.removeAllControllers();
     }

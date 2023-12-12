@@ -7,50 +7,50 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:planet_system/models/new_planet_model.dart';
 import 'package:planet_system/services/planets_service.dart';
 
-class _PlanetsModelState {
-  List<NewPlanetModel> planets;
-  _PlanetsModelState({
-    required this.planets,
-  });
-}
+// class _PlanetsModelState {
+//   List<NewPlanetModel> planets;
+//   _PlanetsModelState({
+//     required this.planets,
+//   });
+// }
 
-class PlanetsProvider extends ChangeNotifier {
-  final _planetsService = PlanetService();
+// class PlanetsProvider extends ChangeNotifier {
+//   final _planetsService = PlanetService();
 
-  var _state = _PlanetsModelState(planets: []);
-  _PlanetsModelState get state => _state;
+//   var _state = _PlanetsModelState(planets: []);
+//   _PlanetsModelState get state => _state;
 
-  PlanetsProvider() {
-    loadValue();
-  }
-  void loadValue() async {
-    await _planetsService.initialize();
-    _updateState();
-  }
+//   PlanetsProvider() {
+//     loadValue();
+//   }
+//   void loadValue() async {
+//     await _planetsService.initialize();
+//     _updateState();
+//   }
 
-  void addPlanet(NewPlanetModel planet) {
-    _planetsService.addPlanet(planet);
-    _updateState();
-  }
+//   void addPlanet(NewPlanetModel planet) {
+//     _planetsService.addPlanet(planet);
+//     _updateState();
+//   }
 
-  void removePlanetWithName(String name) {
-    _planetsService.removePlanetWithName(name);
-    _updateState();
-  }
+//   void removePlanetWithName(String name) {
+//     _planetsService.removePlanetWithName(name);
+//     _updateState();
+//   }
 
-  void removeAll() {
-    _planetsService.removeAll();
-    _updateState();
-  }
+//   void removeAll() {
+//     _planetsService.removeAll();
+//     _updateState();
+//   }
 
-  void _updateState() {
-    final newPlanets = _planetsService.planets;
-    _state = _PlanetsModelState(
-      planets: newPlanets,
-    );
-    notifyListeners();
-  }
-}
+//   void _updateState() {
+//     final newPlanets = _planetsService.planets;
+//     _state = _PlanetsModelState(
+//       planets: newPlanets,
+//     );
+//     notifyListeners();
+//   }
+// }
 
 // class PlanetsDataProvider {
 //   final sharedPreferences = SharedPreferences.getInstance();
