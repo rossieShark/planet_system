@@ -1,32 +1,29 @@
+import 'package:planet_system/database/planets_db.dart';
 import 'package:planet_system/models/new_planet_model.dart';
-import 'package:planet_system/providers/planets_provider.dart';
 
-class PlanetService {
-  final _planetsDataProvider = PlanetsDataProvider();
-  List<NewPlanetModel> _planets = [];
-  List<NewPlanetModel> get planets => _planets;
-
-  void addPlanet(NewPlanetModel planet) {
-    final isUnique =
-        _planets.every((existingPlanet) => existingPlanet.name != planet.name);
-
-    if (isUnique) {
-      _planets.add(planet);
-      _planetsDataProvider.savePlanets(_planets);
-    }
+class PlanetsRepository {
+  final PlanetsDatabase _database;
+  PlanetsRepository(this._database);
+  Future<List<NewPlanetModel>> loadPlanets() async {
+    return await _database.loadPlanets();
   }
 
-  void removePlanetWithName(String name) {
-    _planets.removeWhere((item) => item.name == name);
-    _planetsDataProvider.savePlanets(_planets);
+  Future<List<NewPlanetModel>> addNewPlanet(NewPlanetModel planet) async {
+    List<NewPlanetModel> planets = await loadPlanets();
+    planets.add(planet);
+    _database.savePlanets(planets);
+    return await loadPlanets();
   }
 
-  void removeAll() {
-    _planets = [];
-    _planetsDataProvider.savePlanets(_planets);
+  Future<List<NewPlanetModel>> removePlanet(String name) async {
+    List<NewPlanetModel> planets = await loadPlanets();
+    planets.removeWhere((planet) => planet.name == name);
+    _database.savePlanets(planets);
+    return await loadPlanets();
   }
 
-  Future<void> initialize() async {
-    _planets = await _planetsDataProvider.loadPlanets();
+  Future<List<NewPlanetModel>> removeAllPlanets() async {
+    _database.savePlanets([]);
+    return [];
   }
 }
