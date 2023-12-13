@@ -52,4 +52,10 @@ class _CustomTextFieldState extends State<CustomTextField> {
       },
     );
   }
+
+  @override
+  void dispose() {
+    widget.controller.dispose();
+    super.dispose();
+  }
 }

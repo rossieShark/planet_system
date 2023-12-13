@@ -8,7 +8,6 @@ import 'package:planet_system/bloc/new_planet_bloc/new_planet_bloc_state.dart';
 import 'package:planet_system/bloc/planets_bloc/planets_bloc.dart';
 import 'package:planet_system/bloc/planets_bloc/planets_bloc_event.dart';
 import 'package:planet_system/models/models_index.dart';
-import 'package:planet_system/providers/provider_index.dart';
 import 'package:planet_system/services/services_index.dart';
 
 import 'package:planet_system/ui/widgets/widgets_index.dart';
@@ -86,32 +85,34 @@ class _SaveButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
-        child: Container(
-          width: 200,
-          height: 40,
-          color: AppColors.white,
-          child: TextButton(
-            onPressed: () {
-              final newPlanet = context.read<NewPlanetBloc>();
-              newPlanet.add(IsValidEvent());
-              onPressed(context);
-            },
-            child: const Text(
-              'Save',
-              style: TextStyle(color: AppColors.accent),
+    return BlocBuilder<NewPlanetBloc, NewPlanetState>(
+        builder: (context, state) {
+      return Center(
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: Container(
+            width: 200,
+            height: 40,
+            color: AppColors.white,
+            child: TextButton(
+              onPressed: () {
+                final newPlanet = context.read<NewPlanetBloc>();
+                newPlanet.add(IsValidEvent());
+                onPressed(context, state);
+              },
+              child: const Text(
+                'Save',
+                style: TextStyle(color: AppColors.accent),
+              ),
             ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 
-  void onPressed(BuildContext context) {
-    final isValid = context.watch<NewPlanetBloc>().state.isValid;
-    if (isValid) {
+  void onPressed(BuildContext context, NewPlanetState state) {
+    if (state.isValid) {
       final planetsBloc = context.read<PlanetsBloc>();
       final newPlanet = context.read<NewPlanetBloc>();
       planetsBloc.add(AddPlanetsBlocEvent(NewPlanetModel(
@@ -123,6 +124,11 @@ class _SaveButtonWidget extends StatelessWidget {
           name: newPlanet.state.name.$1)));
       Navigator.of(context).pop();
       newPlanet.add(ClearValuesEvent());
+    } else {
+      AlertDialogWidget().showAlertDialogIos(
+          context: context,
+          title: 'Please fill all fields',
+          onPressed: () => ());
     }
   }
 }

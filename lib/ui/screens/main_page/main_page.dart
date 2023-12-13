@@ -2,10 +2,11 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:planet_system/bloc/planets_bloc/planets_bloc.dart';
 import 'package:planet_system/bloc/planets_bloc/planets_bloc_event.dart';
-import 'package:planet_system/providers/provider_index.dart';
+
 import 'package:planet_system/resources/resources.dart';
 import 'package:planet_system/services/services_index.dart';
 import 'package:planet_system/ui/screens/screens_index.dart';

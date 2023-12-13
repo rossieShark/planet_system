@@ -2,8 +2,8 @@ import 'package:planet_system/services/planets_repository.dart';
 import 'package:planet_system/services/scale_service.dart';
 
 class NewPlanetRepository {
-  PlanetsRepository _planets;
-  ScaleService _scaleService;
+  final PlanetsRepository _planets;
+  final ScaleService _scaleService;
   NewPlanetRepository(this._scaleService, this._planets);
 
   Future<bool> isUniqueName(String? name) async {

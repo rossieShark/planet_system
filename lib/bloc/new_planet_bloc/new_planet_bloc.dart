@@ -5,7 +5,7 @@ import 'package:planet_system/bloc/new_planet_bloc/new_planet_bloc_state.dart';
 import 'package:planet_system/services/new_planet_repository.dart';
 
 class NewPlanetBloc extends Bloc<NewPlanetEvent, NewPlanetState> {
-  NewPlanetRepository _repository;
+  final NewPlanetRepository _repository;
   NewPlanetBloc(this._repository)
       : super(NewPlanetState(
             color: Colors.red,
@@ -13,7 +13,7 @@ class NewPlanetBloc extends Bloc<NewPlanetEvent, NewPlanetState> {
             distance: (null, null, true),
             velocity: (null, null, true),
             name: (null, null, true),
-            isValid: true)) {
+            isValid: false)) {
     on<ChangeColorEvent>(_onChangeColor);
     on<ChangeRadiusEvent>(_onChangeRadius);
     on<ChangeDistanceEvent>(_onChangeDistance);

@@ -18,6 +18,7 @@ class PlanetsStack extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<PlanetsBloc>().add(const LoadPlanetsBlocEvent());
     return Center(
       child: BlocBuilder<PlanetsBloc, PlanetsState>(builder: (context, state) {
         return state.map(

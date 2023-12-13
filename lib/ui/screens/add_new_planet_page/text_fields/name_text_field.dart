@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:planet_system/bloc/new_planet_bloc/new_planet_bloc.dart';
 import 'package:planet_system/bloc/new_planet_bloc/new_planet_bloc_event.dart';
-import 'package:planet_system/providers/provider_index.dart';
-import 'package:planet_system/services/services_index.dart';
+
 import 'package:planet_system/ui/widgets/widgets_index.dart';
 
 class NameTextField extends StatefulWidget {
@@ -25,38 +25,7 @@ class _NameTextFieldState extends State<NameTextField> {
       controller: _nameTextController,
       onSubmitted: (value) {
         newPlanetBloc.add(ChangeNameEvent(name: value));
-        // updateErrorText(value);
       },
     );
-  }
-
-  // void updateErrorText(String value) {
-  //   final uniqueService = UniqueService();
-
-  //   if (value.isEmpty || !uniqueService.isUniqueName(value)) {
-  //     setState(() {
-  //       errorText = 'Name is not unique or empty';
-  //     });
-  //     addToProvider();
-  //   } else {
-  //     setState(() {
-  //       errorText = null;
-  //     });
-  //     addToProvider();
-  //   }
-  // }
-
-  // void addToProvider() {
-  //   SchedulerBinding.instance.addPostFrameCallback((_) {
-  //     context
-  //         .read<TextFieldsProvider>()
-  //         .addController(_nameTextController, errorText == null);
-  //   });
-  // }
-
-  @override
-  void dispose() {
-    _nameTextController.dispose();
-    super.dispose();
   }
 }
