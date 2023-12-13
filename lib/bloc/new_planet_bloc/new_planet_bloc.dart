@@ -10,9 +10,9 @@ class NewPlanetBloc extends Bloc<NewPlanetEvent, NewPlanetState> {
       : super(NewPlanetState(
             color: Colors.red,
             raduis: (20000, null, true),
-            distance: (null, null, true),
-            velocity: (null, null, true),
-            name: (null, null, true),
+            distance: (null, null, false),
+            velocity: (null, null, false),
+            name: (null, null, false),
             isValid: false)) {
     on<ChangeColorEvent>(_onChangeColor);
     on<ChangeRadiusEvent>(_onChangeRadius);
@@ -36,6 +36,7 @@ class NewPlanetBloc extends Bloc<NewPlanetEvent, NewPlanetState> {
     } else {
       errorText = 'Invalid radius';
     }
+    add(IsValidEvent());
     emit(state.copyWith(raduis: (event.radius, errorText, isValid)));
   }
 
@@ -48,6 +49,7 @@ class NewPlanetBloc extends Bloc<NewPlanetEvent, NewPlanetState> {
     } else {
       errorText = 'Invalid distance';
     }
+    add(IsValidEvent());
     emit(state.copyWith(distance: (event.distance, errorText, isValid)));
   }
 
@@ -60,6 +62,7 @@ class NewPlanetBloc extends Bloc<NewPlanetEvent, NewPlanetState> {
     } else {
       errorText = 'Please enter unique name';
     }
+    add(IsValidEvent());
     emit(state.copyWith(name: (event.name, errorText, isValid)));
   }
 
@@ -72,6 +75,7 @@ class NewPlanetBloc extends Bloc<NewPlanetEvent, NewPlanetState> {
     } else {
       errorText = 'Invalid velocity';
     }
+    add(IsValidEvent());
     emit(state.copyWith(velocity: (event.velocity, errorText, isValid)));
   }
 

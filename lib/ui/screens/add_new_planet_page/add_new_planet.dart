@@ -88,48 +88,68 @@ class _SaveButtonWidget extends StatelessWidget {
     return BlocBuilder<NewPlanetBloc, NewPlanetState>(
         builder: (context, state) {
       return Center(
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(20),
-          child: Container(
-            width: 200,
-            height: 40,
-            color: AppColors.white,
-            child: TextButton(
-              onPressed: () {
-                final newPlanet = context.read<NewPlanetBloc>();
-                newPlanet.add(IsValidEvent());
-                onPressed(context, state);
-              },
-              child: const Text(
-                'Save',
-                style: TextStyle(color: AppColors.accent),
+          child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: Container(
+          width: 150,
+          height: 40,
+          //   color: AppColors.white,
+          child: ElevatedButton(
+            onPressed: state.isValid ? () => onPressed(context, state) : null,
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.resolveWith(
+                (states) {
+                  if (states.contains(MaterialState.disabled)) {
+                    return const Color.fromARGB(
+                        255, 190, 192, 200); // Replace with your desired color
+                  }
+                  return AppColors.white;
+                },
               ),
+              // Style for the enabled state
+              foregroundColor: MaterialStateProperty.resolveWith(
+                (states) {
+                  if (states.contains(MaterialState.disabled)) {
+                    return AppColors.grey; // Replace with your desired color
+                  }
+                  return AppColors.accent;
+                },
+              ),
+              // Style for the disabled state
+              // overlayColor: MaterialStateProperty.resolveWith(
+              //   (states) {
+              //     if (states.contains(MaterialState.disabled)) {
+              //       return AppColors.grey; // Replace with your desired color
+              //     }
+              //     return null;
+              //   },
+              // ),
             ),
+            child: const Text('Save'),
           ),
         ),
-      );
+      ));
     });
   }
 
   void onPressed(BuildContext context, NewPlanetState state) {
-    if (state.isValid) {
-      final planetsBloc = context.read<PlanetsBloc>();
-      final newPlanet = context.read<NewPlanetBloc>();
-      planetsBloc.add(AddPlanetsBlocEvent(NewPlanetModel(
-          color: newPlanet.state.color,
-          raduis: ScaleService().convertRadius(newPlanet.state.raduis.$1!) * 3,
-          distance:
-              ScaleService().convertDistance(newPlanet.state.distance.$1!),
-          velocity: newPlanet.state.velocity.$1,
-          name: newPlanet.state.name.$1)));
-      Navigator.of(context).pop();
-      newPlanet.add(ClearValuesEvent());
-    } else {
-      AlertDialogWidget().showAlertDialogIos(
-          context: context,
-          title: 'Please fill all fields',
-          onPressed: () => ());
-    }
+    // if (state.isValid) {
+    final planetsBloc = context.read<PlanetsBloc>();
+    final newPlanet = context.read<NewPlanetBloc>();
+    planetsBloc.add(AddPlanetsBlocEvent(NewPlanetModel(
+        color: newPlanet.state.color,
+        raduis: ScaleService().convertRadius(newPlanet.state.raduis.$1!) * 3,
+        distance: ScaleService().convertDistance(newPlanet.state.distance.$1!),
+        velocity: newPlanet.state.velocity.$1,
+        name: newPlanet.state.name.$1)));
+    Navigator.of(context).pop();
+    newPlanet.add(ClearValuesEvent());
+    // } else {
+    //   AlertDialogWidget().showAlertDialogIos(
+    //       context: context,
+    //       title: 'Please fill all fields',
+    //       onPressed: () => ());
+    // }
   }
 }
 
