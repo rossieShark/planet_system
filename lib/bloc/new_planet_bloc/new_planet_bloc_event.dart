@@ -11,28 +11,28 @@ class ChangeColorEvent extends NewPlanetEvent {
 }
 
 class ChangeRadiusEvent extends NewPlanetEvent {
-  final double radius;
+  final double? radius;
   ChangeRadiusEvent({
     required this.radius,
   });
 }
 
 class ChangeDistanceEvent extends NewPlanetEvent {
-  final double distance;
+  final double? distance;
   ChangeDistanceEvent({
     required this.distance,
   });
 }
 
 class ChangeVelocityEvent extends NewPlanetEvent {
-  final double velocity;
+  final double? velocity;
   ChangeVelocityEvent({
     required this.velocity,
   });
 }
 
 class ChangeNameEvent extends NewPlanetEvent {
-  final String name;
+  final String? name;
   ChangeNameEvent({
     required this.name,
   });

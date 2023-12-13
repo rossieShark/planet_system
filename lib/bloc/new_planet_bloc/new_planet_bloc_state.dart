@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 
 class NewPlanetState {
   final Color? color;
-  final double? raduis;
-  final double? distance;
-  final double? velocity;
-  final String? name;
+  final (double?, String?, bool) raduis;
+  final (double?, String?, bool) distance;
+  final (double?, String?, bool) velocity;
+  final (String?, String?, bool) name;
   final bool isValid;
   NewPlanetState(
       {required this.color,
@@ -16,19 +16,21 @@ class NewPlanetState {
       required this.isValid,
       required this.name});
 
-  NewPlanetState copyWith(
-      {Color? color,
-      double? raduis,
-      double? distance,
-      double? velocity,
-      String? name,
-      bool? isValid}) {
+  NewPlanetState copyWith({
+    Color? color,
+    (double?, String?, bool)? raduis,
+    (double?, String?, bool)? distance,
+    (double?, String?, bool)? velocity,
+    (String?, String?, bool)? name,
+    bool? isValid,
+  }) {
     return NewPlanetState(
-        color: color ?? this.color,
-        raduis: raduis ?? this.raduis,
-        distance: distance ?? this.distance,
-        velocity: velocity ?? this.velocity,
-        name: name ?? this.name,
-        isValid: isValid ?? this.isValid);
+      color: color ?? this.color,
+      raduis: raduis ?? this.raduis,
+      distance: distance ?? this.distance,
+      velocity: velocity ?? this.velocity,
+      name: name ?? this.name,
+      isValid: isValid ?? this.isValid,
+    );
   }
 }
