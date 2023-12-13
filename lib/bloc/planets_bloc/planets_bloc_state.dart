@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:planet_system/models/new_planet_model.dart';
+import 'package:planet_system/domain/models/new_planet_model.dart';
 part 'planets_bloc_state.freezed.dart';
 
 @Freezed(equal: false)

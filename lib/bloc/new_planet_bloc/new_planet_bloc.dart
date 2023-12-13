@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:planet_system/bloc/new_planet_bloc/new_planet_bloc_event.dart';
 import 'package:planet_system/bloc/new_planet_bloc/new_planet_bloc_state.dart';
-import 'package:planet_system/services/new_planet_repository.dart';
+import 'package:planet_system/domain/repositories/new_planet_repository.dart';
 
 class NewPlanetBloc extends Bloc<NewPlanetEvent, NewPlanetState> {
   final NewPlanetRepository _repository;

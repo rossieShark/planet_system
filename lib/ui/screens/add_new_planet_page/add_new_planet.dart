@@ -1,15 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:planet_system/bloc/new_planet_bloc/new_planet_bloc.dart';
-import 'package:planet_system/bloc/new_planet_bloc/new_planet_bloc_event.dart';
-import 'package:planet_system/bloc/new_planet_bloc/new_planet_bloc_state.dart';
-
-import 'package:planet_system/bloc/planets_bloc/planets_bloc.dart';
-import 'package:planet_system/bloc/planets_bloc/planets_bloc_event.dart';
-import 'package:planet_system/models/models_index.dart';
-import 'package:planet_system/services/services_index.dart';
-
+import 'package:planet_system/bloc/index.dart';
+import 'package:planet_system/domain/models/models_index.dart';
+import 'package:planet_system/domain/services/services_index.dart';
 import 'package:planet_system/ui/widgets/widgets_index.dart';
 
 class AddNewPlanet extends StatefulWidget {
@@ -90,40 +83,28 @@ class _SaveButtonWidget extends StatelessWidget {
       return Center(
           child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
-        child: Container(
+        child: SizedBox(
           width: 150,
           height: 40,
-          //   color: AppColors.white,
           child: ElevatedButton(
             onPressed: state.isValid ? () => onPressed(context, state) : null,
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.resolveWith(
                 (states) {
                   if (states.contains(MaterialState.disabled)) {
-                    return const Color.fromARGB(
-                        255, 190, 192, 200); // Replace with your desired color
+                    return const Color.fromARGB(255, 190, 192, 200);
                   }
                   return AppColors.white;
                 },
               ),
-              // Style for the enabled state
               foregroundColor: MaterialStateProperty.resolveWith(
                 (states) {
                   if (states.contains(MaterialState.disabled)) {
-                    return AppColors.grey; // Replace with your desired color
+                    return AppColors.grey;
                   }
                   return AppColors.accent;
                 },
               ),
-              // Style for the disabled state
-              // overlayColor: MaterialStateProperty.resolveWith(
-              //   (states) {
-              //     if (states.contains(MaterialState.disabled)) {
-              //       return AppColors.grey; // Replace with your desired color
-              //     }
-              //     return null;
-              //   },
-              // ),
             ),
             child: const Text('Save'),
           ),
@@ -133,7 +114,6 @@ class _SaveButtonWidget extends StatelessWidget {
   }
 
   void onPressed(BuildContext context, NewPlanetState state) {
-    // if (state.isValid) {
     final planetsBloc = context.read<PlanetsBloc>();
     final newPlanet = context.read<NewPlanetBloc>();
     planetsBloc.add(AddPlanetsBlocEvent(NewPlanetModel(
@@ -144,12 +124,6 @@ class _SaveButtonWidget extends StatelessWidget {
         name: newPlanet.state.name.$1)));
     Navigator.of(context).pop();
     newPlanet.add(ClearValuesEvent());
-    // } else {
-    //   AlertDialogWidget().showAlertDialogIos(
-    //       context: context,
-    //       title: 'Please fill all fields',
-    //       onPressed: () => ());
-    // }
   }
 }
 

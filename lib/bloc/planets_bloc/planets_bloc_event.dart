@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:planet_system/models/new_planet_model.dart';
+import 'package:planet_system/domain/models/new_planet_model.dart';
 
 abstract class PlanetsBlocEvent extends Equatable {
   const PlanetsBlocEvent();

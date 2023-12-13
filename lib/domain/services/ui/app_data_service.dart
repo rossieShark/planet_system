@@ -1,4 +1,4 @@
-import 'package:planet_system/models/models_index.dart';
+import 'package:planet_system/domain/models/models_index.dart';
 import 'package:planet_system/ui/screens/screens_index.dart';
 
 class AppData {

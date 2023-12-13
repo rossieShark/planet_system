@@ -1,11 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
-import 'package:planet_system/bloc/new_planet_bloc/new_planet_bloc.dart';
-import 'package:planet_system/bloc/new_planet_bloc/new_planet_bloc_event.dart';
-
-import 'package:planet_system/services/services_index.dart';
+import 'package:planet_system/bloc/index.dart';
+import 'package:planet_system/domain/services/services_index.dart';
 import 'package:planet_system/ui/widgets/widgets_index.dart';
 
 class ColorPickerButton extends StatelessWidget {

@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:planet_system/models/new_planet_model.dart';
+import 'package:planet_system/domain/models/new_planet_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PlanetsDatabase {

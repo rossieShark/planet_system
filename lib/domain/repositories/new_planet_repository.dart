@@ -1,5 +1,5 @@
-import 'package:planet_system/services/planets_repository.dart';
-import 'package:planet_system/services/scale_service.dart';
+import 'package:planet_system/domain/repositories/planets_repository.dart';
+import 'package:planet_system/domain/services/scale_service.dart';
 
 class NewPlanetRepository {
   final PlanetsRepository _planets;

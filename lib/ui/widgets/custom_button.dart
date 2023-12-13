@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:planet_system/services/services_index.dart';
-
+import 'package:planet_system/domain/services/services_index.dart';
 
 class CustomButton extends StatelessWidget {
   const CustomButton({super.key, required this.onTap, required this.image});

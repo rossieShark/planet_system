@@ -1,5 +1,5 @@
 import 'package:planet_system/database/planets_db.dart';
-import 'package:planet_system/models/new_planet_model.dart';
+import 'package:planet_system/domain/models/new_planet_model.dart';
 
 class PlanetsRepository {
   final PlanetsDatabase _database;
