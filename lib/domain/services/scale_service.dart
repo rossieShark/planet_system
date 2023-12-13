@@ -16,4 +16,13 @@ class ScaleService {
     final actualDistance = distance * 10000;
     return actualDistance * _convertValue() + _sunScaleRadius;
   }
+
+  double? parseToDoubleOrNull(String input) {
+    try {
+      double result = double.parse(input);
+      return result;
+    } catch (e) {
+      return null;
+    }
+  }
 }

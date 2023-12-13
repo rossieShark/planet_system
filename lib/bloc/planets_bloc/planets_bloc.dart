@@ -16,6 +16,7 @@ class PlanetsBloc extends Bloc<PlanetsBlocEvent, PlanetsState> {
       LoadPlanetsBlocEvent event, Emitter<PlanetsState> emit) async {
     try {
       final planets = await _repository.loadPlanets();
+      print(planets.first.raduis);
       if (planets.isEmpty) {
         emit(const PlanetsState.empty());
       } else {

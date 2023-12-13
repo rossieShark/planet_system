@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:planet_system/bloc/index.dart';
+import 'package:planet_system/domain/services/services_index.dart';
 import 'package:planet_system/ui/widgets/widgets_index.dart';
 
 class VelocityTextField extends StatefulWidget {
@@ -19,19 +20,9 @@ class _VelocityTextFieldState extends State<VelocityTextField> {
       controller: _velocityController,
       errorText: context.watch<NewPlanetBloc>().state.velocity.$2,
       onSubmitted: (value) {
-        newPlanetBloc
-            .add(ChangeVelocityEvent(velocity: _parseToDoubleOrNull(value)));
+        newPlanetBloc.add(ChangeVelocityEvent(
+            velocity: ScaleService().parseToDoubleOrNull(value)));
       },
     );
-  }
-
-  double? _parseToDoubleOrNull(String input) {
-    try {
-      double result = double.parse(input);
-
-      return result;
-    } catch (e) {
-      return null;
-    }
   }
 }

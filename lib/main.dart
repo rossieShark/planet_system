@@ -6,8 +6,10 @@ import 'package:planet_system/ui/screens/main_page/main_page.dart';
 import 'package:provider/provider.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   SetGetItDependencies().setUpServices();
   SetGetItDependencies().setUpRepositories();
+  SetGetItDependencies().setUpDatabase();
   SetGetItDependencies().setUpBlocs();
   runApp(const PlanetSystem());
 }
@@ -19,9 +21,9 @@ class PlanetSystem extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        BlocProvider<NewPlanetBloc>(create: (_) => GetIt.instance()),
+        BlocProvider<NewPlanetBloc>(create: (_) => GetIt.I.get()),
         BlocProvider<PlanetsBloc>(
-          create: (_) => GetIt.instance(),
+          create: (_) => GetIt.I.get(),
         ),
       ],
       child: const MaterialApp(

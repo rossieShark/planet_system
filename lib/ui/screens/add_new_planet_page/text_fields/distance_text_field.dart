@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:planet_system/bloc/index.dart';
-
+import 'package:planet_system/domain/services/services_index.dart';
 import 'package:planet_system/ui/widgets/widgets_index.dart';
 
 class DistanceTextField extends StatefulWidget {
@@ -20,18 +20,9 @@ class _DistanceTextFieldState extends State<DistanceTextField> {
       controller: _distanceController,
       errorText: context.watch<NewPlanetBloc>().state.distance.$2,
       onSubmitted: (value) {
-        newPlanetBloc
-            .add(ChangeDistanceEvent(distance: parseToDoubleOrNull(value)));
+        newPlanetBloc.add(ChangeDistanceEvent(
+            distance: ScaleService().parseToDoubleOrNull(value)));
       },
     );
-  }
-
-  double? parseToDoubleOrNull(String input) {
-    try {
-      double result = double.parse(input);
-      return result;
-    } catch (e) {
-      return null;
-    }
   }
 }

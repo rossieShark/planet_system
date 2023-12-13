@@ -2,9 +2,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:planet_system/bloc/index.dart';
-
 import 'package:planet_system/resources/resources.dart';
 import 'package:planet_system/domain/services/services_index.dart';
 import 'package:planet_system/ui/screens/screens_index.dart';
