@@ -24,8 +24,7 @@ class NewPlanetRepository {
     return velocity > 0 && velocity <= maxVelocity;
   }
 
-  bool isRadiusValid(String eventValue) {
-    final radius = _parseToDoubleOrNull(eventValue);
+  bool isRadiusValid(double? radius) {
     if (radius == null || radius == 0) {
       return false;
     }
@@ -34,10 +33,9 @@ class NewPlanetRepository {
     return radius > minRadius && radius < maxRadius;
   }
 
-  Future<bool> isUniqueDistance(String eventValue) async {
+  Future<bool> isUniqueDistance(double? distance) async {
     final sunRadius = _scaleService.sunScaleRadius;
     bool isUnique = true;
-    final distance = _parseToDoubleOrNull(eventValue);
     if (distance == 0 || distance == null) {
       return false;
     }
@@ -59,15 +57,5 @@ class NewPlanetRepository {
       }
     }
     return isUnique;
-  }
-
-  double? _parseToDoubleOrNull(String input) {
-    try {
-      double result = double.parse(input);
-
-      return result;
-    } catch (e) {
-      return null;
-    }
   }
 }

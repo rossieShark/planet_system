@@ -23,11 +23,11 @@ class _RadiusTextFieldState extends State<RadiusTextField> {
     final newPlanetBloc = context.read<NewPlanetBloc>();
     return CustomTextField(
       controller: _radiusController,
-      errorText: errorText,
+      errorText: context.watch<NewPlanetBloc>().state.raduis.$2,
       onSubmitted: (value) {
-        if (value.isNotEmpty) {
-          newPlanetBloc.add(ChangeRadiusEvent(radius: double.parse(value)));
-        }
+        newPlanetBloc
+            .add(ChangeRadiusEvent(radius: _parseToDoubleOrNull(value)));
+
         // updateErrorText(value);
       },
     );
@@ -61,5 +61,15 @@ class _RadiusTextFieldState extends State<RadiusTextField> {
   void dispose() {
     _radiusController.dispose();
     super.dispose();
+  }
+
+  double? _parseToDoubleOrNull(String input) {
+    try {
+      double result = double.parse(input);
+
+      return result;
+    } catch (e) {
+      return null;
+    }
   }
 }

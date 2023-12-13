@@ -23,13 +23,10 @@ class _VelocityTextFieldState extends State<VelocityTextField> {
     final newPlanetBloc = context.read<NewPlanetBloc>();
     return CustomTextField(
       controller: _velocityController,
-      errorText: errorText,
+      errorText: context.watch<NewPlanetBloc>().state.velocity.$2,
       onSubmitted: (value) {
-        if (value.isNotEmpty) {
-          print(value);
-          newPlanetBloc.add(ChangeVelocityEvent(velocity: double.parse(value)));
-        }
-        // updateErrorText(value);
+        newPlanetBloc
+            .add(ChangeVelocityEvent(velocity: _parseToDoubleOrNull(value)));
       },
     );
   }
@@ -62,5 +59,15 @@ class _VelocityTextFieldState extends State<VelocityTextField> {
   void dispose() {
     _velocityController.dispose();
     super.dispose();
+  }
+
+  double? _parseToDoubleOrNull(String input) {
+    try {
+      double result = double.parse(input);
+
+      return result;
+    } catch (e) {
+      return null;
+    }
   }
 }
