@@ -24,11 +24,10 @@ class _DistanceTextFieldState extends State<DistanceTextField> {
     final newPlanetBloc = context.read<NewPlanetBloc>();
     return CustomTextField(
       controller: _distanceController,
-      errorText: errorText,
+      errorText: context.watch<NewPlanetBloc>().state.distance.$2,
       onSubmitted: (value) {
-        if (value.isNotEmpty) {
-          newPlanetBloc.add(ChangeDistanceEvent(distance: double.parse(value)));
-        }
+        newPlanetBloc
+            .add(ChangeDistanceEvent(distance: parseToDoubleOrNull(value)));
         // updateErrorText(value);
       },
     );
@@ -62,5 +61,18 @@ class _DistanceTextFieldState extends State<DistanceTextField> {
   void dispose() {
     _distanceController.dispose();
     super.dispose();
+  }
+
+  double? parseToDoubleOrNull(String input) {
+    try {
+      // Attempt to parse the string to double
+      double result = double.parse(input);
+
+      // Return the parsed double if successful
+      return result;
+    } catch (e) {
+      // Return null if parsing fails
+      return null;
+    }
   }
 }

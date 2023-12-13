@@ -15,19 +15,16 @@ class NameTextField extends StatefulWidget {
 
 class _NameTextFieldState extends State<NameTextField> {
   final TextEditingController _nameTextController = TextEditingController();
-  String? errorText;
 
   @override
   Widget build(BuildContext context) {
     final newPlanetBloc = context.read<NewPlanetBloc>();
     return CustomTextField(
       textInputType: TextInputType.name,
-      errorText: errorText,
+      errorText: context.watch<NewPlanetBloc>().state.name.$2,
       controller: _nameTextController,
       onSubmitted: (value) {
-        if (value.isNotEmpty) {
-          newPlanetBloc.add(ChangeNameEvent(name: value));
-        }
+        newPlanetBloc.add(ChangeNameEvent(name: value));
         // updateErrorText(value);
       },
     );

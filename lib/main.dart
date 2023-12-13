@@ -4,8 +4,10 @@ import 'package:planet_system/bloc/new_planet_bloc/new_planet_bloc.dart';
 
 import 'package:planet_system/bloc/planets_bloc/planets_bloc.dart';
 import 'package:planet_system/database/planets_db.dart';
+import 'package:planet_system/services/new_planet_repository.dart';
 
 import 'package:planet_system/services/planets_repository.dart';
+import 'package:planet_system/services/scale_service.dart';
 import 'package:planet_system/ui/screens/main_page/main_page.dart';
 
 import 'package:provider/provider.dart';
@@ -22,7 +24,8 @@ class PlanetSystem extends StatelessWidget {
     return MultiProvider(
       providers: [
         BlocProvider(
-          create: (_) => NewPlanetBloc(),
+          create: (_) => NewPlanetBloc(NewPlanetRepository(
+              ScaleService(), PlanetsRepository(PlanetsDatabase()))),
         ),
         BlocProvider(
           create: (_) => PlanetsBloc(PlanetsRepository(PlanetsDatabase())),

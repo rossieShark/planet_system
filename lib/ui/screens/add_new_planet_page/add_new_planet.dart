@@ -116,10 +116,11 @@ class _SaveButtonWidget extends StatelessWidget {
       final newPlanet = context.read<NewPlanetBloc>();
       planetsBloc.add(AddPlanetsBlocEvent(NewPlanetModel(
           color: newPlanet.state.color,
-          raduis: ScaleService().convertRadius(newPlanet.state.raduis!) * 3,
-          distance: ScaleService().convertDistance(newPlanet.state.distance!),
-          velocity: newPlanet.state.velocity,
-          name: newPlanet.state.name)));
+          raduis: ScaleService().convertRadius(newPlanet.state.raduis.$1!) * 3,
+          distance:
+              ScaleService().convertDistance(newPlanet.state.distance.$1!),
+          velocity: newPlanet.state.velocity.$1,
+          name: newPlanet.state.name.$1)));
       Navigator.of(context).pop();
       newPlanet.add(ClearValuesEvent());
     }
@@ -134,8 +135,8 @@ class _PlanetBuilder extends StatelessWidget {
     return BlocBuilder<NewPlanetBloc, NewPlanetState>(
         builder: (context, state) {
       const scaleFactor = 40;
-      final planetRadius = state.raduis != null
-          ? ScaleService().convertRadius(state.raduis!) * scaleFactor
+      final planetRadius = state.raduis.$1 != null
+          ? ScaleService().convertRadius(state.raduis.$1!) * scaleFactor
           : 0.0;
 
       return SizedBox(
