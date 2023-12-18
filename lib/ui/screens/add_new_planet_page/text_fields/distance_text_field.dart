@@ -20,8 +20,8 @@ class _DistanceTextFieldState extends State<DistanceTextField> {
       controller: _distanceController,
       errorText: context.watch<NewPlanetBloc>().state.distance.$2,
       onSubmitted: (value) {
-        newPlanetBloc.add(ChangeDistanceEvent(
-            distance: ScaleService().parseToDoubleOrNull(value)));
+        newPlanetBloc
+            .add(ChangeDistanceEvent(distance: value.parseToDoubleOrNull()));
       },
     );
   }

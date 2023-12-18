@@ -48,7 +48,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       onEditingComplete: () {
         widget.onSubmitted(widget.controller.text);
 
-        _focusNode.nextFocus();
+        FocusScope.of(context).unfocus();
       },
     );
   }

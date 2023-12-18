@@ -17,9 +17,20 @@ class ScaleService {
     return actualDistance * _convertValue() + _sunScaleRadius;
   }
 
-  double? parseToDoubleOrNull(String input) {
+  // static double? parseToDoubleOrNull(String input) {
+  //   try {
+  //     double result = double.parse(input);
+  //     return result;
+  //   } catch (e) {
+  //     return null;
+  //   }
+  // }
+}
+
+extension ParseToDouble on String {
+  double? parseToDoubleOrNull() {
     try {
-      double result = double.parse(input);
+      double result = double.parse(this);
       return result;
     } catch (e) {
       return null;

@@ -22,15 +22,18 @@ class _AddNewPlanetState extends State<AddNewPlanet> {
         elevation: 0,
         title: const Text('Add new planet'),
       ),
-      body: ListView(
-        children: const [
-          _PlanetBuilder(),
-          _PlanetPropertiesWidget(),
-          SizedBox(
-            height: 50,
-          ),
-          _SaveButtonWidget()
-        ],
+      body: GestureDetector(
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        child: ListView(
+          children: const [
+            _PlanetBuilder(),
+            _PlanetPropertiesWidget(),
+            SizedBox(
+              height: 50,
+            ),
+            _SaveButtonWidget()
+          ],
+        ),
       ),
     );
   }

@@ -20,8 +20,8 @@ class _RadiusTextFieldState extends State<RadiusTextField> {
       controller: _radiusController,
       errorText: context.watch<NewPlanetBloc>().state.raduis.$2,
       onSubmitted: (value) {
-        newPlanetBloc.add(ChangeRadiusEvent(
-            radius: ScaleService().parseToDoubleOrNull(value)));
+        newPlanetBloc
+            .add(ChangeRadiusEvent(radius: value.parseToDoubleOrNull()));
       },
     );
   }

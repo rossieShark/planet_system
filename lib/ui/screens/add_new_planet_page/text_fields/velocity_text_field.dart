@@ -20,8 +20,8 @@ class _VelocityTextFieldState extends State<VelocityTextField> {
       controller: _velocityController,
       errorText: context.watch<NewPlanetBloc>().state.velocity.$2,
       onSubmitted: (value) {
-        newPlanetBloc.add(ChangeVelocityEvent(
-            velocity: ScaleService().parseToDoubleOrNull(value)));
+        newPlanetBloc
+            .add(ChangeVelocityEvent(velocity: value.parseToDoubleOrNull()));
       },
     );
   }
